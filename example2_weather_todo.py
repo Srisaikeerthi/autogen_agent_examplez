@@ -42,7 +42,7 @@ async def main() -> None:
 
         response=agent.run_stream(task=f"""
         What is the weather in {city}?.You should not Expalin anyother thing
-        .if City is not valid just give Invalidcity and no anyother conversation""")
+        .if city is not valid just give Invalid city and no further conversation""")
         await Console(response)
         print("-"*40)
     await model_client.close()
