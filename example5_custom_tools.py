@@ -48,6 +48,7 @@ async def main() -> None:
     tool_agent = AssistantAgent(
         name="tool_master",
         model_client=model_client,
+        # tool registry. Add as many tools as needed
         tools=[calculate_circle_area, roll_dice, get_random_fact],
         system_message="""You are a helpful assistant with access to 
         various tools. Use them to help users with calculations, games, 

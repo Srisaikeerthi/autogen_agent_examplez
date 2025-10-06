@@ -4,9 +4,7 @@ pip3 install python-dotenv
 
 
 pip install pyautogen python-dotenv
-
-
-pip3 install -U "autogen-agentchat" "autogen-ext[openai]"
+pip install -U "autogen-agentchat" "autogen-ext[openai]"
 
 
 1. Basic single agent - Simple task execution
@@ -45,3 +43,42 @@ Key features of AutoGen
   5. Observable & Debuggable
   6. Event-Driven Architecture
 
+
+
+AI Agent Patterns
+====
+  1. Tool Use Pattern 
+      (example2)
+      AI agents can identify and call tools to connect to external apis, databases, etc.
+
+  2. Reflection Pattern 
+      (example9)
+
+      AI Agents evaluate AI agent's own output and reflect -- till it arrives at final response
+
+  3. Agent as Tool Pattern 
+      (example11)
+
+      Sometimes tools should connect to LLM (example scenario: for fact checking)
+
+  4. ReAct (Reasoning + Act) Pattern 
+      Agent must show reasoning steps and then act. So that transparency is achieved 
+      about decision making.
+
+  5. Multi-Agent Pattern
+      Some complex problems can be fixed when multiple agents aligned to 
+      complete the tasks
+
+  6. Planning Pattern 
+      Agent will decompose the complex steps into small sub steps 
+      
+
+
+
+AI Agent Processes
+===
+    1. Sequential
+    2. Hierachical
+    3. Hybrid 
+    4. Parallel
+    5. Async

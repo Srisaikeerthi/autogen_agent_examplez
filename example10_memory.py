@@ -5,7 +5,6 @@ from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.ui import Console
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 from autogen_core.model_context import BufferedChatCompletionContext
-from autogen_core import CancellationToken
 import os
 from dotenv import load_dotenv
 
@@ -18,22 +17,26 @@ async def main() -> None:
     )
     
     # Create model contexts with different buffer sizes for memory management
-    strategist_context = BufferedChatCompletionContext(buffer_size=5) # keeps the last 5 messages (including system message)
-    analyst_context = BufferedChatCompletionContext(buffer_size=8) # keeps the last 8 messages (including system message)
+    strategist_context = BufferedChatCompletionContext(buffer_size=5) 
+    # keeps the last 5 messages (including system message)
+    analyst_context = BufferedChatCompletionContext(buffer_size=8) 
+    # keeps the last 8 messages (including system message)
     
     # Create agents with different memory contexts
     strategist = AssistantAgent(
         "strategist",
         model_client=model_client,
         model_context=strategist_context,  # Keep only last 5 messages in context
-        system_message="You are a business strategist. Focus on high-level strategy and planning.",
+        system_message="""You are a business strategist. 
+        Focus on high-level strategy and planning."""
     )
     
     analyst = AssistantAgent(
         "analyst",
         model_client=model_client,
         model_context=analyst_context,  # Keep more context for detailed analysis
-        system_message="You are a financial analyst. Provide detailed financial analysis and projections.",
+        system_message="""You are a financial analyst. 
+        Provide detailed financial analysis and projections."""
     )
     
     # Create team
@@ -43,17 +46,19 @@ async def main() -> None:
     )
     
     print("=== CUSTOM CONTEXT MANAGEMENT ===")
-    result = await team.run(task="Analyze the business potential of entering the electric vehicle market. Consider both strategic and financial aspects.")
-    
+    result = await Console(team.run_stream(task="""Analyze the business potential of entering the 
+    electric vehicle market in India. Consider both strategic and financial aspects."""))
+
+    print(result)
     # Inspect the conversation
-    print(f"\nTotal messages: {len(result.messages)}")
-    print(f"Stop reason: {result.stop_reason}")
+    print(f"\n ==========Total messages: {len(result.messages)}")
+    print(f"=============Stop reason: {result.stop_reason}")
     
-    # Reset and continue with new context
-    await team.reset()
+    # # Reset and continue with new context
+    # await team.reset()
     
-    print("\n=== NEW CONVERSATION AFTER RESET ===")
-    await Console(team.run_stream(task="Now analyze the renewable energy sector instead."))
+    # print("\n=== NEW CONVERSATION AFTER RESET ===")
+    # await Console(team.run_stream(task="Now analyze the renewable energy sector instead."))
     
     await model_client.close()
 

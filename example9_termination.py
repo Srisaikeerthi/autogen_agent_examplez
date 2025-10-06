@@ -16,28 +16,34 @@ async def main() -> None:
     )
     
     # Create primary content creator agent
-    writer = AssistantAgent(
+    writer_agent = AssistantAgent(
         "writer",
         model_client=model_client,
-        system_message="You are a creative writer. Write engaging content based on requests and improve it based on feedback.",
+        system_message="""You are a creative writer.
+         Write engaging content based on requests and improve it based on feedback.""",
     )
     
     # Create critic agent for feedback
-    critic = AssistantAgent(
+    critic_agent = AssistantAgent(
         "critic",
         model_client=model_client,
-        system_message="You are a content editor. Provide constructive feedback on writing. Respond with 'APPROVED' when the content meets high standards.",
+        system_message="""You are a content editor.
+        Provide constructive feedback on writing. 
+        You must give at least one feedback and get it improved before approving. 
+        Respond with 'APPROVED' when the content meets high standards."""
     )
     
     # Define termination condition
     termination = TextMentionTermination("APPROVED")
     
     # Create team with round-robin pattern
-    team = RoundRobinGroupChat([writer, critic], termination_condition=termination)
+    team = RoundRobinGroupChat([writer_agent, critic_agent], 
+    termination_condition=termination)
     
     # Run the team
     print("=== REFLECTION PATTERN EXAMPLE ===")
-    await Console(team.run_stream(task="Write a compelling product description for a smart fitness watch"))
+    await Console(team.run_stream(task="""Write a compelling product description 
+    for a smart fitness watch"""))
     
     await model_client.close()
 

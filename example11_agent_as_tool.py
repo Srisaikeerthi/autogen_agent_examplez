@@ -19,29 +19,30 @@ async def research_agent_tool(query: str) -> str:
     research_agent = AssistantAgent(
         "research_specialist",
         model_client=model_client,
-        system_message="You are a specialized research agent. Provide concise, factual research findings.",
+        system_message="""You are a specialized research agent. 
+        Provide concise, factual research findings.""",
     )
     
     result = await research_agent.run(task=f"Research this topic: {query}")
     await model_client.close()
     return result.messages[-1].content
 
-async def calculator_agent_tool(expression: str) -> str:
-    """Calculator agent that performs mathematical calculations."""
-    model_client = OpenAIChatCompletionClient(
-        model="gpt-4o", 
-        api_key=os.getenv("OPENAI_API_KEY")
-    )
+# async def calculator_agent_tool(expression: str) -> str:
+#     """Calculator agent that performs mathematical calculations."""
+#     model_client = OpenAIChatCompletionClient(
+#         model="gpt-4o", 
+#         api_key=os.getenv("OPENAI_API_KEY")
+#     )
     
-    calc_agent = AssistantAgent(
-        "calculator",
-        model_client=model_client,
-        system_message="You are a precise calculator. Solve mathematical expressions and show your work.",
-    )
+#     calc_agent = AssistantAgent(
+#         "calculator",
+#         model_client=model_client,
+#         system_message="You are a precise calculator. Solve mathematical expressions and show your work.",
+#     )
     
-    result = await calc_agent.run(task=f"Calculate: {expression}")
-    await model_client.close()
-    return result.messages[-1].content
+#     result = await calc_agent.run(task=f"Calculate: {expression}")
+#     await model_client.close()
+#     return result.messages[-1].content
 
 async def main() -> None:
     model_client = OpenAIChatCompletionClient(
@@ -53,8 +54,9 @@ async def main() -> None:
     coordinator = AssistantAgent(
         "coordinator",
         model_client=model_client,
-        tools=[research_agent_tool, calculator_agent_tool],
-        system_message="You are a project coordinator. Use the research and calculator tools to provide comprehensive analysis.",
+        tools=[research_agent_tool],
+        system_message="""You are a project coordinator.
+         Use the research tool to provide comprehensive analysis.""",
         max_tool_iterations=5,
     )
     
@@ -62,7 +64,8 @@ async def main() -> None:
     reviewer = AssistantAgent(
         "reviewer",
         model_client=model_client,
-        system_message="You are a project reviewer. Evaluate the coordinator's analysis and suggest improvements.",
+        system_message="""You are a project reviewer. Evaluate the coordinator's analysis 
+        and suggest improvements.""",
     )
     
     # Create team
@@ -72,7 +75,9 @@ async def main() -> None:
     )
     
     print("=== AGENT-AS-TOOL PATTERN ===")
-    result = await team.run(task="Analyze the ROI of investing $100,000 in a SaaS startup. Research the market and calculate potential returns.")
+    result = await team.run(task="""Analyze the ROI of investing $100,000 in a 
+    SaaS startup. 
+    Research the market and calculate potential returns.""")
     
     print(f"\nFinal analysis completed with {len(result.messages)} messages");
 

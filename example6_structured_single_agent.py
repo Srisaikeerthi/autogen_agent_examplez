@@ -28,7 +28,7 @@ async def main() -> None:
         model="gemini-2.5-flash",
         # the following is needed as Google Gemini 2.5 Pro is not in the default model list
         model_info=ModelInfo(vision=True, function_calling=True, json_output=True, 
-        family="unknown", structured_output=False),
+        family="unknown", structured_output=True),
         api_key=os.getenv("GOOGLE_API_KEY")
     )
     

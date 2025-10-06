@@ -39,7 +39,6 @@ async def main() -> None:
         source="user"
     )
     
-    
     # Run the agent with the image
     result = await vision_agent.run(task=multi_modal_message)
     print("Vision Analysis:", result.messages[-1].content)
