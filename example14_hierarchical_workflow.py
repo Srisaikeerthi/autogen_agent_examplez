@@ -15,11 +15,12 @@ async def main() -> None:
         api_key=os.getenv("OPENAI_API_KEY")
     )
     
-    # Level 1: Triage/Dispatcher (Entry Point)
+    # support_triage: Triage/Dispatcher (Entry Point)
     support_triage = AssistantAgent(
         "support_triage",
         model_client=model_client,
-        system_message="""You are Level 1 Support Triage. Classify incoming support tickets:
+        system_message="""You are Level 1 Support Triage. 
+            Classify incoming support tickets:
         - Simple/FAQ → level1_support 
         - Technical issues → level2_support
         - Complex/Engineering → level3_support  
@@ -32,9 +33,10 @@ async def main() -> None:
     level1_support = AssistantAgent(
         "level1_support",
         model_client=model_client,
-        system_message="""You are Level 1 Support. Handle basic questions and common issues.
-        If the issue is beyond your scope, escalate to Level 2 with 'ESCALATE_L2' and full context.
-        Try to resolve simple password resets, account questions, and basic troubleshooting first.""",
+        system_message="""You are Level 1 Support. Handle basic questions and common 
+        issues. If the issue is beyond your scope, escalate to Level 2 with
+         'ESCALATE_L2' and full context. Try to resolve simple password resets, 
+         account questions, and basic troubleshooting first.""",
         description="Level 1 Support - handles basic user questions"
     )
     
@@ -42,9 +44,10 @@ async def main() -> None:
     level2_support = AssistantAgent(
         "level2_support",
         model_client=model_client,
-        system_message="""You are Level 2 Technical Support. Handle complex technical issues.
-        You have access to advanced diagnostic tools and can perform system checks.
-        If the issue requires engineering involvement, escalate to Level 3 with 'ESCALATE_L3'.""",
+        system_message="""You are Level 2 Technical Support. Handle complex technical 
+        issues. You have access to advanced diagnostic tools and can perform system checks.
+        If the issue requires engineering involvement, escalate to Level 3 with 
+        'ESCALATE_L3'.""",
         description="Level 2 Support - handles technical troubleshooting"
     )
     
@@ -52,8 +55,9 @@ async def main() -> None:
     level3_support = AssistantAgent(
         "level3_support", 
         model_client=model_client,
-        system_message="""You are Level 3 Engineering Support. Handle the most complex technical issues.
-        You can access system logs, modify configurations, and coordinate with development teams.
+        system_message="""You are Level 3 Engineering Support. 
+        Handle the most complex technical issues. You can access system logs, 
+        modify configurations, and coordinate with development teams.
         Provide detailed technical analysis and permanent solutions.""",
         description="Level 3 Support - handles engineering-level issues"
     )
@@ -62,8 +66,10 @@ async def main() -> None:
     billing_specialist = AssistantAgent(
         "billing_specialist",
         model_client=model_client,
-        system_message="""You are a Billing Specialist. Handle all account, payment, and subscription issues.
-        You have access to billing systems and can process refunds, upgrades, and account changes.
+        system_message="""You are a Billing Specialist. Handle all account, 
+        payment, and subscription issues.
+        You have access to billing systems and can process refunds, 
+        upgrades, and account changes.
         Escalate only if legal or executive approval is needed.""",
         description="Billing Specialist - handles account and payment issues"
     )
@@ -73,7 +79,8 @@ async def main() -> None:
         "support_manager",
         model_client=model_client,
         system_message="""You are the Support Manager. You oversee all support operations.
-        You handle escalations from all levels, make policy decisions, and coordinate with other departments.
+        You handle escalations from all levels, make policy decisions, and 
+        coordinate with other departments.
         You also handle VIP customers and complex multi-department issues.""",
         description="Support Manager - supervises all support operations"
     )
@@ -101,10 +108,13 @@ async def main() -> None:
     
     # Test different support scenarios
     support_tickets = [
-        "I forgot my password and can't log into my account. Can you help me reset it?",
-        "My API calls are returning 500 errors intermittently. This started happening after yesterday's deployment.",
-        "I need to upgrade my subscription but the billing page shows an error. Also, can I get a refund for last month's unused credits?",
-        "Our entire production system is down. Database connections are failing and we're losing revenue every minute."
+        # "I forgot my password and can't log into my account. Can you help me reset it?",
+        # """My API calls are returning 500 errors intermittently. 
+        #  This started happening after yesterday's deployment.""",
+        #"""I need to upgrade my subscription but the billing page shows an error.
+         #Also, can I get a refund for last month's unused credits?""",
+        """Our entire production system is down. Database connections are failing 
+        and we're losing revenue every minute."""
     ]
     
     for i, ticket in enumerate(support_tickets, 1):

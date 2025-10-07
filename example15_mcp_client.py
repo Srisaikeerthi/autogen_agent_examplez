@@ -1,3 +1,4 @@
+# pip install -U "autogen-ext[mcp]"
 import asyncio
 import os
 import sys
@@ -50,7 +51,7 @@ async def main():
         await Console(
             agent.run_stream(
                 task="Calculate 15 + 25",
-                cancellation_token=CancellationToken()
+                # cancellation_token=CancellationToken()
             )
         )
     except Exception as e:

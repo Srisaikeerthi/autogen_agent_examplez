@@ -82,3 +82,46 @@ AI Agent Processes
     3. Hybrid 
     4. Parallel
     5. Async
+
+
+
+MCP 
+===
+  Model Context Protocol 
+  1. MCP Server
+      For example [Gmail MCP Server]: 
+        tool1,
+        tool2, 
+        tool3
+        ..
+        tool50
+
+  2. MCP Client 
+      * will connect to AI agents 
+
+
+3 Core Concepts
+==
+  MCP servers can provide three main types of capabilities:
+  #1 Resources: File-like data that can be read by clients (like API responses or file contents)
+  #2 Tools: Functions that can be called by the LLM (with user approval)
+  #3 Prompts: Pre-written templates that help users accomplish specific tasks
+
+3 Ways to Connect to MCP Servers
+-----
+  1. STDIO (only for accessing resources from local computer)
+    * only local server connections are possible 
+
+  2. Http with Server Side Events (SSE)
+    * remote mcp server connections are possible
+
+  3. Streamable Http [RECOMMENDED]
+    * most advanced 
+    * use this in production
+
+To have persistent connection with http you have 2 options
+--- 
+  1. Server Side Events (SSE)
+  2. Websockets
+
+

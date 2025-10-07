@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""Minimal MCP Server for debugging"""
+"""Minimal MCP Server for debugging - this uses stdio for communication."""
 import sys
 import asyncio
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
-
 # All logs to stderr
 import logging
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
