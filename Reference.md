@@ -124,4 +124,3 @@ To have persistent connection with http you have 2 options
   1. Server Side Events (SSE)
   2. Websockets
 
-
