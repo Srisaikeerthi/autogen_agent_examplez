@@ -7,6 +7,9 @@ from autogen_agentchat.ui import Console
 import requests
 load_dotenv()
  
+#langsmith integration
+LANGSMITH_API_KEY=os.getenv("LANGSMITH_API_KEY")
+
 async def get_weather(city:str)->str:
     """Get the weather for a given city."""
     try:
