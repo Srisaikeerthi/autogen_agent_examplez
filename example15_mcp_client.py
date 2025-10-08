@@ -30,7 +30,20 @@ async def main():
         },
         read_timeout_seconds=60
     )
-    
+
+    # connect over streamable http
+    # Create server params for the remote MCP service
+    # server_params = StreamableHttpServerParams(
+    #     url="https://api.example.com/mcp",
+    #     headers={"Authorization": "Bearer your-api-key", "Content-Type": "application/json"},
+    #     timeout=30.0,  # HTTP timeout in seconds
+    #     sse_read_timeout=300.0,  # SSE read timeout in seconds (5 minutes)
+    #     terminate_on_close=True,
+    # )
+
+    # # Get the translation tool from the server
+    # adapter = await StreamableHttpMcpToolAdapter.from_server_params(server_params, "translate")
+
     try:
         print("Connecting to MCP server...", file=sys.stderr)
         tools = await mcp_server_tools(server_params)
